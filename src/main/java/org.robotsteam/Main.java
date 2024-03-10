@@ -21,7 +21,6 @@ public class Main
       SwingUtilities.invokeLater(() -> {
         MainApplicationFrame frame = new MainApplicationFrame();
         Locale.setDefault(new Locale("ru", "RU"));
-        frame.loadWindowInfo("windowInfo.dat");
         frame.pack();
         frame.setVisible(true);
         frame.setExtendedState(Frame.MAXIMIZED_BOTH);
