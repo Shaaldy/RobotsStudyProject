@@ -1,4 +1,4 @@
-package gui;
+package org.robotsteam.gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -30,6 +30,8 @@ public class LogWindow extends JInternalFrame implements LogChangeListener
         pack();
         updateLogContent();
     }
+
+
 
     private void updateLogContent()
     {
