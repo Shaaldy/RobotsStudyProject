@@ -1,4 +1,4 @@
-package org.robotsteam.gui;
+package org.robot.gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -7,9 +7,9 @@ import java.awt.TextArea;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 
-import org.robotsteam.log.LogChangeListener;
-import org.robotsteam.log.LogEntry;
-import org.robotsteam.log.LogWindowSource;
+import org.robot.log.LogChangeListener;
+import org.robot.log.LogEntry;
+import org.robot.log.LogWindowSource;
 
 public class LogWindow extends JInternalFrame implements LogChangeListener
 {

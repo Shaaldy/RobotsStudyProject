@@ -1,7 +1,7 @@
 
-package org.robotsteam;
+package org.robot;
 
-import org.robotsteam.gui.MainApplicationFrame;
+import org.robot.gui.MainApplicationFrame;
 
 import java.awt.Frame;
 

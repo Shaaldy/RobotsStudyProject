@@ -1,4 +1,4 @@
-package org.robotsteam.log;
+package org.robot.log;
 
 public interface LogChangeListener
 {
