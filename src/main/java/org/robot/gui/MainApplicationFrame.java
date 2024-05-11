@@ -30,9 +30,12 @@ public class MainApplicationFrame extends JFrame
 
         setContentPane(desktopPane);
 
-        addWindow(initLogWindow());
+        LogWindow logWindow = initLogWindow();
+        GameWindow gameWindow = initGameWindow();
 
-        addWindow(initGameWindow());
+
+        addWindow(logWindow);
+        addWindow(gameWindow);
 
         setJMenuBar(new MenuBar(this));
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
