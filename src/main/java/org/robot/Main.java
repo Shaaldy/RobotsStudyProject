@@ -1,7 +1,7 @@
 
 package org.robot;
 
-import org.robot.gui.MainApplicationFrame;
+import org.robot.gui.game.MainApplicationFrame;
 
 import java.awt.Frame;
 
@@ -13,9 +13,8 @@ public class Main
   public static void main(String[] args) {
     try {
       UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-//        UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-//        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//        UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+      UIManager.put("OptionPane.yesButtonText", "Да");
+      UIManager.put("OptionPane.noButtonText", "Нет");
     } catch (Exception e) {
       e.printStackTrace();
     }
