@@ -1,6 +1,7 @@
 
 package org.robot;
 
+import org.robot.gui.Loader;
 import org.robot.gui.game.MainApplicationFrame;
 
 import java.awt.Frame;
@@ -17,7 +18,7 @@ public class Main
       e.printStackTrace();
     }
     SwingUtilities.invokeLater(() -> {
-      MainApplicationFrame frame = new MainApplicationFrame();
+      MainApplicationFrame frame = Loader.deserializeMainFrame();
       frame.pack();
       frame.setVisible(true);
       frame.setExtendedState(Frame.MAXIMIZED_BOTH);

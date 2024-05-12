@@ -32,11 +32,15 @@ public class LogWindow extends JInternalFrame implements LogChangeListener
         pack();
         updateLogContent();
     }
-    public LogWindow(LogWindowSource logSource, WindowState windowState) throws PropertyVetoException {
+    public LogWindow(LogWindowSource logSource, WindowState windowState){
         this(logSource);
 
         this.setSize(windowState.getSize());
-        this.setIcon(windowState.isMinimized());
+        try {
+            this.setIcon(windowState.isMinimized());
+        } catch (PropertyVetoException e) {
+            throw new RuntimeException(e);
+        }
         this.setLocation(windowState.getLocaction());
     }
 

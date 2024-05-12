@@ -22,10 +22,14 @@ public class GameWindow extends JInternalFrame
         pack();
     }
 
-    public GameWindow(WindowState windowState) throws PropertyVetoException {
+    public GameWindow(WindowState windowState){
         this();
         this.setSize(windowState.getSize());
-        this.setIcon(windowState.isMinimized());
+        try {
+            this.setIcon(windowState.isMinimized());
+        } catch (PropertyVetoException e) {
+            throw new RuntimeException(e);
+        }
         this.setLocation(windowState.getLocaction());
     }
 }
