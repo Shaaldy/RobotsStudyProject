@@ -1,4 +1,4 @@
-package org.robot.gui;
+package org.robot.gui.game;
 
 import java.awt.Color;
 import java.awt.EventQueue;
