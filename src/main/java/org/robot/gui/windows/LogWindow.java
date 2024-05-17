@@ -1,4 +1,4 @@
-package org.robot.gui.game;
+package org.robot.gui.windows;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -41,7 +41,7 @@ public class LogWindow extends JInternalFrame implements LogChangeListener
         } catch (PropertyVetoException e) {
             throw new RuntimeException(e);
         }
-        this.setLocation(windowState.getLocaction());
+        this.setLocation(windowState.getLocation());
     }
 
     private void updateLogContent()
