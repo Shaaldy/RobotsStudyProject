@@ -9,12 +9,12 @@ import java.beans.PropertyVetoException;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 
-import org.robot.gui.model.Robot;
+import org.robot.gui.model.IRobot;
 
 public class GameWindow extends JInternalFrame
 {
     private GameVisualizer m_visualizer;
-    public GameWindow(Robot robot)
+    public GameWindow(IRobot robot)
     {
         super("Игровое поле", true, true, true, true);
         m_visualizer = new GameVisualizer(robot);
@@ -24,7 +24,7 @@ public class GameWindow extends JInternalFrame
         pack();
     }
 
-    public GameWindow(WindowState windowState, Robot robot){
+    public GameWindow(WindowState windowState, IRobot robot){
         this(robot);
         this.setSize(windowState.getSize());
         try {

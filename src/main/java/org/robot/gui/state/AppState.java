@@ -8,10 +8,13 @@ public class AppState implements Serializable {
     private WindowState logWindowState;
     private WindowState coordinatedWindowState;
 
-    public AppState(JInternalFrame gameWindow, JInternalFrame logWindow, JInternalFrame coordinatedWindow){
+    private WindowState robotLoaderWindowState;
+
+    public AppState(JInternalFrame gameWindow, JInternalFrame logWindow, JInternalFrame coordinatedWindow, JInternalFrame robotLoaderWindow){
         gameWindowState = WindowStateBuild.buildFromJInternalFrame(gameWindow);
         logWindowState = WindowStateBuild.buildFromJInternalFrame(logWindow);
         coordinatedWindowState = WindowStateBuild.buildFromJInternalFrame(coordinatedWindow);
+        robotLoaderWindowState = WindowStateBuild.buildFromJInternalFrame(robotLoaderWindow);
     }
 
     public WindowState getGameWindowState() {
@@ -22,6 +25,10 @@ public class AppState implements Serializable {
         return logWindowState;
     }
 
-    public WindowState getCoordinatedWindowState(){ return coordinatedWindowState; }
+    public WindowState getCoordinatedWindowState(){ return coordinatedWindowState;}
+
+    public WindowState getRobotLoaderWindowState(){ return robotLoaderWindowState;}
+
+
 
 }

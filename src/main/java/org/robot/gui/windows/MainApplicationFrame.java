@@ -7,10 +7,12 @@ import java.awt.event.WindowEvent;
 import javax.swing.*;
 
 import org.robot.gui.Loader;
+import org.robot.gui.model.IRobot;
 import org.robot.gui.model.Robot;
 import org.robot.gui.state.AppState;
 import org.robot.gui.state.WindowState;
 import org.robot.log.Logger;
+
 
 public class MainApplicationFrame extends JFrame
 {
@@ -18,20 +20,23 @@ public class MainApplicationFrame extends JFrame
     private final LogWindow logWindow;
     private final GameWindow gameWindow;
     private final CoordinatedWindow coordinatedWindow;
-    public MainApplicationFrame( WindowState gameWindowState, WindowState logWindowState, WindowState coordinatedWindowState){
+    private final RobotLoaderWindow robotLoaderWindow;
+    public MainApplicationFrame( WindowState gameWindowState, WindowState logWindowState, WindowState coordinatedWindowState, WindowState robotLoaderWindow){
         int inset = 50;
         this.setLocation(new Point(inset, inset));
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 
         setContentPane(desktopPane);
-        Robot robot = new Robot(100, 100);
-        logWindow = initLogWindow(logWindowState);
-        gameWindow = new GameWindow(gameWindowState, robot);
-        coordinatedWindow = new CoordinatedWindow(coordinatedWindowState, robot);
+        IRobot robot = new Robot(100, 100);
+        this.logWindow = initLogWindow(logWindowState);
+        this.gameWindow = new GameWindow(gameWindowState, robot);
+        this.coordinatedWindow = new CoordinatedWindow(coordinatedWindowState, robot);
+        this.robotLoaderWindow = new RobotLoaderWindow(robotLoaderWindow);
 
-        addWindow(logWindow);
-        addWindow(gameWindow);
-        addWindow(coordinatedWindow);
+        addWindow(this.logWindow);
+        addWindow(this.gameWindow);
+        addWindow(this.coordinatedWindow);
+        addWindow(this.robotLoaderWindow);
 
         setJMenuBar(new MenuBar(this));
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -49,11 +54,13 @@ public class MainApplicationFrame extends JFrame
                 new WindowState(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()),
                     new Point(10, 10), false),
                 new WindowState(new Dimension(300, 100),
-                        new Point(300, 100), false));
+                        new Point(300, 100), false),
+                new WindowState(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()),
+                        new Point(300, 300), false));
     }
 
     public MainApplicationFrame(AppState state){
-        this(state.getGameWindowState(), state.getLogWindowState(), state.getCoordinatedWindowState());
+        this(state.getGameWindowState(), state.getLogWindowState(), state.getCoordinatedWindowState(), state.getRobotLoaderWindowState());
     }
 
     protected void addWindow(JInternalFrame frame)
@@ -88,7 +95,7 @@ public class MainApplicationFrame extends JFrame
     }
 
     private AppState heapState() {
-        return new AppState(gameWindow, logWindow, coordinatedWindow);
+        return new AppState(gameWindow, logWindow, coordinatedWindow, robotLoaderWindow);
     }
 
 }

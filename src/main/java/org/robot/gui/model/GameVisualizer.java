@@ -18,23 +18,22 @@ import javax.swing.JPanel;
 
 public class GameVisualizer extends JPanel implements Observer {
     private final Timer m_timer = initTimer();
-
-    private static Timer initTimer() {
-        return new Timer("events generator", true);
-    }
-
-    private Robot robot;
+    private IRobot robot;
     private volatile Point2D target = new Point2D.Double(150, 150);
 
     private volatile double m_robotPositionX = 0;
     private volatile double m_robotPositionY = 0;
     private volatile double m_robotDirection = 0;
 
-    public GameVisualizer(Robot robot) {
+    public GameVisualizer(IRobot robot) {
+        this.robot = robot;
+        robot.addObserver(this);
+
         m_timer.schedule(new TimerTask() {
             @Override
             public void run() { onRedrawEvent(); }
         }, 0, 50);
+
         m_timer.schedule(new TimerTask() {
             @Override
             public void run() { robot.update(target, GameVisualizer.this.getSize()); }
@@ -47,6 +46,16 @@ public class GameVisualizer extends JPanel implements Observer {
         });
         setDoubleBuffered(true);
         this.robot = robot; robot.addObserver(this);
+    }
+
+    public void setRobot(IRobot newRobot){
+        this.robot.deleteObserver(this);
+        this.robot = newRobot;
+        this.robot.addObserver(this);
+    }
+
+    private static Timer initTimer() {
+        return new Timer("events generator", true);
     }
 
     protected void setTargetPosition(Point2D p) {

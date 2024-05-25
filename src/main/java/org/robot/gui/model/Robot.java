@@ -3,8 +3,9 @@ package org.robot.gui.model;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Observable;
+import java.util.Observer;
 
-public class Robot extends Observable {
+public class Robot extends IRobot {
 
     private Point2D currentPosition;
     private volatile Point2D targetPosition;
@@ -22,25 +23,21 @@ public class Robot extends Observable {
         super();
         currentPosition = new Point2D.Double(10, 10);
     }
-
+    @Override
     public double getDirection(){
         return direction;
     }
+    @Override
     public Point2D getCurrentPosition(){
         return currentPosition;
     }
+
+    @Override
     public String getInfo(){
         return String.format("Position: (%f, %f) | Direction: %f", currentPosition.getX(), currentPosition.getY(), direction);
     }
 
-    public void setPosition(Point2D newPosition){
-        currentPosition = newPosition;
-    }
-
-    public void setDirection(Double newDirection){
-        direction = newDirection;
-    }
-
+    @Override
     public void update(Point2D target, Dimension bounds){
         if (currentPosition.distance(target) < 0.5) return;
 
@@ -51,6 +48,15 @@ public class Robot extends Observable {
         notifyObservers("robot moved");
         clearChanged();
     }
+
+    public void setPosition(Point2D newPosition){
+        currentPosition = newPosition;
+    }
+
+    public void setDirection(Double newDirection){
+        direction = newDirection;
+    }
+
 
 
     public Point2D newPos(double vel, double angleVel, double t){
