@@ -1,7 +1,5 @@
 package org.robot.gui.model;
 
-import org.robot.custom.DefaultRobot;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -10,10 +8,10 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 public class RobotLoader {
-    public static DefaultRobot loadRobot(String jarPath, String robotClassName) throws IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
+    public static IRobot loadRobot(String jarPath, String robotClassName) throws IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
         File file = new File(jarPath);
         if (!file.exists() || !file.isFile()){
-            throw new IOException("File not fount: " + jarPath);
+            throw new IOException("File not found: " + jarPath);
         }
 
         if (!jarPath.endsWith(".jar")){
@@ -25,13 +23,11 @@ public class RobotLoader {
 
         Class<?> robotClass = classLoader.loadClass(robotClassName);
 
-
-        if (!DefaultRobot.class.isAssignableFrom(robotClass)){
-            throw new ClassNotFoundException("Class does not implements DefaultRobot interface: " + robotClassName);
+        if (!IRobot.class.isAssignableFrom(robotClass)){
+            throw new ClassNotFoundException("Class does not implement IRobot interface: " + robotClassName);
         }
 
-
         Constructor<?> constructor = robotClass.getConstructor();
-        return (DefaultRobot) constructor.newInstance();
+        return (IRobot) constructor.newInstance();
     }
 }

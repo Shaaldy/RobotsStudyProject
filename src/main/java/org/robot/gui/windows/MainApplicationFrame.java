@@ -31,7 +31,7 @@ public class MainApplicationFrame extends JFrame
         this.logWindow = initLogWindow(logWindowState);
         this.gameWindow = new GameWindow(gameWindowState, robot);
         this.coordinatedWindow = new CoordinatedWindow(coordinatedWindowState, robot);
-        this.robotLoaderWindow = new RobotLoaderWindow(gameWindow, robotLoaderWindow);
+        this.robotLoaderWindow = new RobotLoaderWindow(gameWindow, robot, robotLoaderWindow);
 
         addWindow(this.logWindow);
         addWindow(this.gameWindow);

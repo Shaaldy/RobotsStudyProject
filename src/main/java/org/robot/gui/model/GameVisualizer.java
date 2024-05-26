@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.lang.reflect.Constructor;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
@@ -17,7 +18,7 @@ import java.util.TimerTask;
 import javax.swing.JPanel;
 
 public class GameVisualizer extends JPanel implements Observer {
-    private final Timer m_timer = initTimer();
+    private Timer m_timer = initTimer();
     private IRobot robot;
     private volatile Point2D target = new Point2D.Double(150, 150);
 
@@ -28,7 +29,18 @@ public class GameVisualizer extends JPanel implements Observer {
     public GameVisualizer(IRobot robot) {
         this.robot = robot;
         robot.addObserver(this);
+        initialize();
+    }
 
+    public void setRobot(IRobot iRobot){
+        if (this.robot != null){
+            this.robot.deleteObserver(this);
+        }
+        this.robot = iRobot;
+        this.robot.addObserver(this);
+        initialize();
+    }
+    private void initialize(){
         m_timer.schedule(new TimerTask() {
             @Override
             public void run() { onRedrawEvent(); }
@@ -45,18 +57,7 @@ public class GameVisualizer extends JPanel implements Observer {
             }
         });
         setDoubleBuffered(true);
-        this.robot = robot; robot.addObserver(this);
     }
-
-    public void setRobot(IRobot newRobot){
-        if (this.robot != null){
-            this.robot.deleteObserver(this);
-        }
-
-        this.robot = newRobot;
-        this.robot.addObserver(this);
-    }
-
     private static Timer initTimer() {
         return new Timer("events generator", true);
     }

@@ -14,6 +14,7 @@ import org.robot.gui.model.IRobot;
 public class GameWindow extends JInternalFrame
 {
     private GameVisualizer m_visualizer;
+    private JPanel panel;
     public GameWindow(IRobot robot)
     {
         super("Игровое поле", true, true, true, true);
@@ -33,9 +34,9 @@ public class GameWindow extends JInternalFrame
     }
 
     public void initialize(){
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(m_visualizer, BorderLayout.CENTER);
-        getContentPane().add(panel);
+        this.panel = new JPanel(new BorderLayout());
+        this.panel.add(m_visualizer, BorderLayout.CENTER);
+        getContentPane().add(this.panel);
         pack();
     }
 

@@ -8,15 +8,17 @@ import java.awt.geom.Point2D;
 public class DefaultRobot extends IRobot {
 
     private Point2D currentPosition;
-    private volatile Point2D targetPosition;
-    private static volatile double direction = 0;
-
-    private static final double maxVelocity = 0.1;
-    private static final double maxAngularVelocity = 0.001;
+    private volatile Point2D targetPosition = new Point2D.Double(150, 150);;
+    double direction = 0;
+    double maxVelocity = 0.1;
+    double maxAngularVelocity = 0.001;
 
     public DefaultRobot(int PosX, int PosY){
         super();
-        currentPosition = new Point2D.Double(PosX, PosY);
+        this.currentPosition = new Point2D.Double(PosX, PosY);
+        this.direction = 0;
+        this.maxVelocity = 0.1;
+        this.maxAngularVelocity = 0.001;
     }
 
     public DefaultRobot(){
@@ -56,6 +58,7 @@ public class DefaultRobot extends IRobot {
     public void setDirection(Double newDirection){
         direction = newDirection;
     }
+
 
 
 

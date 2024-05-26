@@ -2,7 +2,9 @@ package org.robot.gui.windows;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.beans.PropertyVetoException;
+import java.io.Console;
 import java.io.File;
 import java.io.Serializable;
 import org.robot.gui.model.IRobot;
@@ -18,11 +20,11 @@ public class RobotLoaderWindow extends JInternalFrame implements Serializable {
     private IRobot currentRobot;
     private GameVisualizer visualizer;
     private GameWindow gameWindow;
-    public RobotLoaderWindow(GameWindow gameWindow){
+    public RobotLoaderWindow(GameWindow gameWindow, IRobot iRobot){
         super("Роботы", true, true, true, true);
         setSize(300, 300);
         JPanel panel = new JPanel(new BorderLayout());
-
+        this.currentRobot = iRobot;
         this.gameWindow = gameWindow;
         loadButton = new JButton("Загрузить робота");
         panel.add(loadButton, BorderLayout.CENTER);
@@ -45,8 +47,8 @@ public class RobotLoaderWindow extends JInternalFrame implements Serializable {
         getContentPane().add(panel);
     }
 
-    public RobotLoaderWindow(GameWindow gameWindow, WindowState windowState){
-        this(gameWindow);
+    public RobotLoaderWindow(GameWindow gameWindow, IRobot IRobot, WindowState windowState){
+        this(gameWindow, IRobot);
         this.setSize(windowState.getSize());
         try {
             this.setIcon(windowState.isMinimized());
@@ -62,6 +64,7 @@ public class RobotLoaderWindow extends JInternalFrame implements Serializable {
 
         try{
             IRobot robot = (IRobot) RobotLoader.loadRobot(file.getAbsolutePath(), robotClassName);
+
             if (currentRobot != null){
                 this.gameWindow.setRobot(robot);
             }
