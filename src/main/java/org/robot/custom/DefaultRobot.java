@@ -1,11 +1,11 @@
-package org.robot.gui.model;
+package org.robot.custom;
+
+import org.robot.gui.model.IRobot;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.Observable;
-import java.util.Observer;
 
-public class Robot extends IRobot {
+public class DefaultRobot extends IRobot {
 
     private Point2D currentPosition;
     private volatile Point2D targetPosition;
@@ -14,12 +14,12 @@ public class Robot extends IRobot {
     private static final double maxVelocity = 0.1;
     private static final double maxAngularVelocity = 0.001;
 
-    public Robot(int PosX, int PosY){
+    public DefaultRobot(int PosX, int PosY){
         super();
         currentPosition = new Point2D.Double(PosX, PosY);
     }
 
-    public Robot(){
+    public DefaultRobot(){
         super();
         currentPosition = new Point2D.Double(10, 10);
     }

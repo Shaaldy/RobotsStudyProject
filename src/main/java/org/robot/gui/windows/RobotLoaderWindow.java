@@ -10,19 +10,20 @@ import org.robot.gui.model.GameVisualizer;
 import org.robot.gui.model.RobotLoader;
 import org.robot.gui.state.WindowState;
 
+
 public class RobotLoaderWindow extends JInternalFrame implements Serializable {
     private JPanel panel;
     private JButton loadButton;
     private JFileChooser fileChooser;
     private IRobot currentRobot;
     private GameVisualizer visualizer;
-
-    public RobotLoaderWindow(){
+    private GameWindow gameWindow;
+    public RobotLoaderWindow(GameWindow gameWindow){
         super("Роботы", true, true, true, true);
         setSize(300, 300);
         JPanel panel = new JPanel(new BorderLayout());
 
-
+        this.gameWindow = gameWindow;
         loadButton = new JButton("Загрузить робота");
         panel.add(loadButton, BorderLayout.CENTER);
 
@@ -41,10 +42,11 @@ public class RobotLoaderWindow extends JInternalFrame implements Serializable {
                 }
             }
         });
+        getContentPane().add(panel);
     }
 
-    public RobotLoaderWindow(WindowState windowState){
-        this();
+    public RobotLoaderWindow(GameWindow gameWindow, WindowState windowState){
+        this(gameWindow);
         this.setSize(windowState.getSize());
         try {
             this.setIcon(windowState.isMinimized());
@@ -55,15 +57,15 @@ public class RobotLoaderWindow extends JInternalFrame implements Serializable {
     }
 
     private void loadRobot(File file){
-        String robotClassName = JOptionPane.showInputDialog(this, "Введите имя класса робота (с пакетами): ");
+        String defaultClassName = "org.robot.custom.DefaultRobot";
+        String robotClassName = JOptionPane.showInputDialog(this, "Введите имя класса робота (с пакетами): ", defaultClassName);
 
         try{
             IRobot robot = (IRobot) RobotLoader.loadRobot(file.getAbsolutePath(), robotClassName);
             if (currentRobot != null){
-                currentRobot.deleteObserver(visualizer);
+                this.gameWindow.setRobot(robot);
             }
             currentRobot = robot;
-            visualizer = new GameVisualizer(robot);
         }
         catch (Exception e){
             e.printStackTrace();

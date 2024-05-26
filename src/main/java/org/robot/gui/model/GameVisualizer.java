@@ -49,7 +49,10 @@ public class GameVisualizer extends JPanel implements Observer {
     }
 
     public void setRobot(IRobot newRobot){
-        this.robot.deleteObserver(this);
+        if (this.robot != null){
+            this.robot.deleteObserver(this);
+        }
+
         this.robot = newRobot;
         this.robot.addObserver(this);
     }

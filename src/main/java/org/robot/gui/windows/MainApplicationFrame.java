@@ -8,7 +8,7 @@ import javax.swing.*;
 
 import org.robot.gui.Loader;
 import org.robot.gui.model.IRobot;
-import org.robot.gui.model.Robot;
+import org.robot.custom.DefaultRobot;
 import org.robot.gui.state.AppState;
 import org.robot.gui.state.WindowState;
 import org.robot.log.Logger;
@@ -27,11 +27,11 @@ public class MainApplicationFrame extends JFrame
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 
         setContentPane(desktopPane);
-        IRobot robot = new Robot(100, 100);
+        IRobot robot = new DefaultRobot(100, 100);
         this.logWindow = initLogWindow(logWindowState);
         this.gameWindow = new GameWindow(gameWindowState, robot);
         this.coordinatedWindow = new CoordinatedWindow(coordinatedWindowState, robot);
-        this.robotLoaderWindow = new RobotLoaderWindow(robotLoaderWindow);
+        this.robotLoaderWindow = new RobotLoaderWindow(gameWindow, robotLoaderWindow);
 
         addWindow(this.logWindow);
         addWindow(this.gameWindow);
