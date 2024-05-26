@@ -9,9 +9,9 @@ public class DefaultRobot extends IRobot {
 
     private Point2D currentPosition;
     private volatile Point2D targetPosition = new Point2D.Double(150, 150);;
-    double direction = 0;
-    double maxVelocity = 0.1;
-    double maxAngularVelocity = 0.001;
+    double direction;
+    double maxVelocity;
+    double maxAngularVelocity;
 
     public DefaultRobot(int PosX, int PosY){
         super();
@@ -22,8 +22,7 @@ public class DefaultRobot extends IRobot {
     }
 
     public DefaultRobot(){
-        super();
-        currentPosition = new Point2D.Double(10, 10);
+        this(10, 10);
     }
     @Override
     public double getDirection(){
