@@ -1,13 +1,13 @@
-package org.robot.gui.game;
+package org.robot.gui.windows;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.beans.PropertyVetoException;
 
 import javax.swing.*;
 
 import org.robot.gui.Loader;
+import org.robot.gui.model.Robot;
 import org.robot.gui.state.AppState;
 import org.robot.gui.state.WindowState;
 import org.robot.log.Logger;
@@ -17,23 +17,21 @@ public class MainApplicationFrame extends JFrame
     private final JDesktopPane desktopPane = new JDesktopPane();
     private final LogWindow logWindow;
     private final GameWindow gameWindow;
-
-    public MainApplicationFrame( WindowState gameWindowState, WindowState logWindowState) {
-
-
+    private final CoordinatedWindow coordinatedWindow;
+    public MainApplicationFrame( WindowState gameWindowState, WindowState logWindowState, WindowState coordinatedWindowState){
         int inset = 50;
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds(inset, inset,
-                screenSize.width  - inset*2,
-                screenSize.height - inset*2);
+        this.setLocation(new Point(inset, inset));
+        this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 
         setContentPane(desktopPane);
-
+        Robot robot = new Robot(100, 100);
         logWindow = initLogWindow(logWindowState);
-        gameWindow = new GameWindow(gameWindowState);
+        gameWindow = new GameWindow(gameWindowState, robot);
+        coordinatedWindow = new CoordinatedWindow(coordinatedWindowState, robot);
 
         addWindow(logWindow);
         addWindow(gameWindow);
+        addWindow(coordinatedWindow);
 
         setJMenuBar(new MenuBar(this));
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -47,13 +45,15 @@ public class MainApplicationFrame extends JFrame
 
     public MainApplicationFrame(){
         this(new WindowState(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()),
-                new Point(300, 100), false), new WindowState(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()),
-                new Point(10, 10), false));
-
+                        new Point(300, 100), false),
+                new WindowState(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()),
+                    new Point(10, 10), false),
+                new WindowState(new Dimension(300, 100),
+                        new Point(300, 100), false));
     }
 
     public MainApplicationFrame(AppState state){
-        this(state.getGameWindowState(), state.getLogWindowState());
+        this(state.getGameWindowState(), state.getLogWindowState(), state.getCoordinatedWindowState());
     }
 
     protected void addWindow(JInternalFrame frame)
@@ -88,7 +88,7 @@ public class MainApplicationFrame extends JFrame
     }
 
     private AppState heapState() {
-        return new AppState(gameWindow, logWindow);
+        return new AppState(gameWindow, logWindow, coordinatedWindow);
     }
 
 }

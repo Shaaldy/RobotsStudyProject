@@ -2,7 +2,7 @@
 package org.robot;
 
 import org.robot.gui.Loader;
-import org.robot.gui.game.MainApplicationFrame;
+import org.robot.gui.windows.MainApplicationFrame;
 
 import java.awt.Frame;
 

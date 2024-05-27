@@ -1,6 +1,6 @@
 package org.robot.gui;
 
-import org.robot.gui.game.MainApplicationFrame;
+import org.robot.gui.windows.MainApplicationFrame;
 import org.robot.gui.state.AppState;
 
 import java.io.*;

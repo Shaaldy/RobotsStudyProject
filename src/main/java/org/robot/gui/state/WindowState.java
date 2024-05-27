@@ -7,13 +7,13 @@ import java.io.Serializable;
 public class WindowState implements Serializable {
 
     private final Dimension windowSize;
-    private final Point locaction;
+    private final Point location;
     private final boolean isMinimized;
 
 
     public WindowState(Dimension windowSize, Point locaction, boolean isMinimized) {
         this.windowSize = windowSize;
-        this.locaction = locaction;
+        this.location = locaction;
         this.isMinimized = isMinimized;
     }
 
@@ -21,8 +21,8 @@ public class WindowState implements Serializable {
         return windowSize;
     }
 
-    public Point getLocaction() {
-        return locaction;
+    public Point getLocation() {
+        return location;
     }
 
     public boolean isMinimized() {

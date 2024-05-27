@@ -1,6 +1,5 @@
-package org.robot.gui.game;
+package org.robot.gui.windows;
 
-import org.robot.Main;
 import org.robot.log.Logger;
 
 import javax.swing.*;
