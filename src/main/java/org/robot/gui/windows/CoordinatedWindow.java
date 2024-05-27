@@ -48,4 +48,12 @@ public class CoordinatedWindow extends JInternalFrame implements Observer, Seria
     private void onRobotMoved() {
         textArea.setText(robot.getInfo());
     }
+
+    public void setInfo(IRobot iRobot){
+        if (this.robot != null){
+            this.robot.deleteObserver(this);
+        }
+        this.robot = iRobot;
+        this.robot.addObserver(this);
+    }
 }

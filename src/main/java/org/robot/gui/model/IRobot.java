@@ -17,4 +17,6 @@ public abstract class IRobot extends Observable {
     public abstract void setPosition(Point2D newPosition);
 
     public abstract void setDirection(Double newDirection);
+
+    protected abstract void drawRobot(Graphics2D g, int x, int y, double direction);
 }

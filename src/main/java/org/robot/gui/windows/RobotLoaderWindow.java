@@ -20,12 +20,14 @@ public class RobotLoaderWindow extends JInternalFrame implements Serializable {
     private IRobot currentRobot;
     private GameVisualizer visualizer;
     private GameWindow gameWindow;
-    public RobotLoaderWindow(GameWindow gameWindow, IRobot iRobot){
+    private CoordinatedWindow coordinatedWindow;
+    public RobotLoaderWindow(GameWindow gameWindow, CoordinatedWindow coordinatedWindow, IRobot iRobot){
         super("Роботы", true, true, true, true);
         setSize(300, 300);
         JPanel panel = new JPanel(new BorderLayout());
         this.currentRobot = iRobot;
         this.gameWindow = gameWindow;
+        this.coordinatedWindow = coordinatedWindow;
         loadButton = new JButton("Загрузить робота");
         panel.add(loadButton, BorderLayout.CENTER);
 
@@ -47,8 +49,8 @@ public class RobotLoaderWindow extends JInternalFrame implements Serializable {
         getContentPane().add(panel);
     }
 
-    public RobotLoaderWindow(GameWindow gameWindow, IRobot IRobot, WindowState windowState){
-        this(gameWindow, IRobot);
+    public RobotLoaderWindow(GameWindow gameWindow, CoordinatedWindow coordinatedWindow, IRobot IRobot, WindowState windowState){
+        this(gameWindow, coordinatedWindow, IRobot);
         this.setSize(windowState.getSize());
         try {
             this.setIcon(windowState.isMinimized());
@@ -56,6 +58,10 @@ public class RobotLoaderWindow extends JInternalFrame implements Serializable {
             throw new RuntimeException(e);
         }
         this.setLocation(windowState.getLocation());
+    }
+
+    public IRobot getRobot(){
+        return this.currentRobot;
     }
 
     private void loadRobot(File file){
@@ -67,6 +73,7 @@ public class RobotLoaderWindow extends JInternalFrame implements Serializable {
 
             if (currentRobot != null){
                 this.gameWindow.setRobot(robot);
+                this.coordinatedWindow.setInfo(robot);
             }
             currentRobot = robot;
         }

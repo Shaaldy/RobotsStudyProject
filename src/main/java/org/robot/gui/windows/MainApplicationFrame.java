@@ -3,12 +3,14 @@ package org.robot.gui.windows;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
 
+import org.robot.custom.DefaultRobot;
 import org.robot.gui.Loader;
 import org.robot.gui.model.IRobot;
-import org.robot.custom.DefaultRobot;
 import org.robot.gui.state.AppState;
 import org.robot.gui.state.WindowState;
 import org.robot.log.Logger;
@@ -21,17 +23,30 @@ public class MainApplicationFrame extends JFrame
     private final GameWindow gameWindow;
     private final CoordinatedWindow coordinatedWindow;
     private final RobotLoaderWindow robotLoaderWindow;
+    IRobot robot;
     public MainApplicationFrame( WindowState gameWindowState, WindowState logWindowState, WindowState coordinatedWindowState, WindowState robotLoaderWindow){
         int inset = 50;
         this.setLocation(new Point(inset, inset));
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 
         setContentPane(desktopPane);
-        IRobot robot = new DefaultRobot(100, 100);
+        String classRobot = Loader.deserializeRobot();
+        if (classRobot != null){
+            try {
+                Class<?> robotClass = Class.forName(classRobot);
+                Constructor<?> constructor = robotClass.getConstructor();
+                this.robot = (IRobot) constructor.newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else{
+            this.robot = new DefaultRobot(10, 10);
+        }
         this.logWindow = initLogWindow(logWindowState);
         this.gameWindow = new GameWindow(gameWindowState, robot);
         this.coordinatedWindow = new CoordinatedWindow(coordinatedWindowState, robot);
-        this.robotLoaderWindow = new RobotLoaderWindow(gameWindow, robot, robotLoaderWindow);
+        this.robotLoaderWindow = new RobotLoaderWindow(gameWindow, coordinatedWindow, robot, robotLoaderWindow);
 
         addWindow(this.logWindow);
         addWindow(this.gameWindow);
@@ -89,6 +104,7 @@ public class MainApplicationFrame extends JFrame
 
         if (option == JOptionPane.YES_OPTION) {
             Loader.serializeAppState(heapState());
+            Loader.serializeRobot(robotLoaderWindow.getRobot());
             System.exit(0);
 
         }

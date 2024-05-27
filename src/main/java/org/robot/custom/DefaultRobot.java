@@ -3,15 +3,17 @@ package org.robot.custom;
 import org.robot.gui.model.IRobot;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+
 
 public class DefaultRobot extends IRobot {
 
     private Point2D currentPosition;
     private volatile Point2D targetPosition = new Point2D.Double(150, 150);;
-    double direction;
-    double maxVelocity;
-    double maxAngularVelocity;
+    public double direction;
+    public double maxVelocity;
+    public double maxAngularVelocity;
 
     public DefaultRobot(int PosX, int PosY){
         super();
@@ -57,8 +59,6 @@ public class DefaultRobot extends IRobot {
     public void setDirection(Double newDirection){
         direction = newDirection;
     }
-
-
 
 
     public Point2D newPos(double vel, double angleVel, double t){
@@ -145,4 +145,32 @@ public class DefaultRobot extends IRobot {
         setPosition(newPos(velocity, angularVelocity, duration));
         setDirection(applyBounds(bounds, newDirection));
     }
+
+    protected static void fillOval(Graphics g, int centerX, int centerY, int diam1, int diam2) {
+        g.fillOval(centerX - diam1 / 2, centerY - diam2 / 2, diam1, diam2);
+    }
+
+    protected static void drawOval(Graphics g, int centerX, int centerY, int diam1, int diam2) {
+        g.drawOval(centerX - diam1 / 2, centerY - diam2 / 2, diam1, diam2);
+    }
+
+    protected static int round(double value) {
+        return (int)(value + 0.5);
+    }
+
+    protected void drawRobot(Graphics2D g, int x, int y, double direction) {
+        int robotCenterX = round(x);
+        int robotCenterY = round(y);
+        AffineTransform t = AffineTransform.getRotateInstance(direction, robotCenterX, robotCenterY);
+        g.setTransform(t);
+        g.setColor(Color.MAGENTA);
+        fillOval(g, robotCenterX, robotCenterY, 30, 10);
+        g.setColor(Color.BLACK);
+        drawOval(g, robotCenterX, robotCenterY, 30, 10);
+        g.setColor(Color.WHITE);
+        fillOval(g, robotCenterX  + 10, robotCenterY, 5, 5);
+        g.setColor(Color.BLACK);
+        drawOval(g, robotCenterX  + 10, robotCenterY, 5, 5);
+    }
+
 }

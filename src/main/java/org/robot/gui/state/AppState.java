@@ -7,7 +7,6 @@ public class AppState implements Serializable {
     private WindowState gameWindowState;
     private WindowState logWindowState;
     private WindowState coordinatedWindowState;
-
     private WindowState robotLoaderWindowState;
 
     public AppState(JInternalFrame gameWindow, JInternalFrame logWindow, JInternalFrame coordinatedWindow, JInternalFrame robotLoaderWindow){
