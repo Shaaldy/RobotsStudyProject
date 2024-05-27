@@ -1,4 +1,4 @@
-package org.robot.gui;
+package org.robot.gui.game;
 
 import org.robot.Main;
 import org.robot.log.Logger;

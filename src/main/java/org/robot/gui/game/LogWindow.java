@@ -1,12 +1,14 @@
-package org.robot.gui;
+package org.robot.gui.game;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.TextArea;
+import java.beans.PropertyVetoException;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 
+import org.robot.gui.state.WindowState;
 import org.robot.log.LogChangeListener;
 import org.robot.log.LogEntry;
 import org.robot.log.LogWindowSource;
@@ -29,6 +31,17 @@ public class LogWindow extends JInternalFrame implements LogChangeListener
         getContentPane().add(panel);
         pack();
         updateLogContent();
+    }
+    public LogWindow(LogWindowSource logSource, WindowState windowState){
+        this(logSource);
+
+        this.setSize(windowState.getSize());
+        try {
+            this.setIcon(windowState.isMinimized());
+        } catch (PropertyVetoException e) {
+            throw new RuntimeException(e);
+        }
+        this.setLocation(windowState.getLocaction());
     }
 
     private void updateLogContent()
