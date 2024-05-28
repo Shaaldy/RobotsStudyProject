@@ -2,13 +2,12 @@ package org.robot.gui.windows;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.beans.PropertyVetoException;
-import java.io.Console;
 import java.io.File;
 import java.io.Serializable;
+
+import org.robot.gui.LocalizationManager;
 import org.robot.gui.model.IRobot;
-import org.robot.gui.model.GameVisualizer;
 import org.robot.gui.model.RobotLoader;
 import org.robot.gui.state.WindowState;
 
@@ -20,13 +19,13 @@ public class RobotLoaderWindow extends JInternalFrame implements Serializable {
     private GameWindow gameWindow;
     private CoordinatedWindow coordinatedWindow;
     public RobotLoaderWindow(GameWindow gameWindow, CoordinatedWindow coordinatedWindow, IRobot iRobot){
-        super("Роботы", true, true, true, true);
+        super(LocalizationManager.getKey("title.robots"), true, true, true, true);
         setSize(300, 300);
         JPanel panel = new JPanel(new BorderLayout());
         this.currentRobot = iRobot;
         this.gameWindow = gameWindow;
         this.coordinatedWindow = coordinatedWindow;
-        loadButton = new JButton("Загрузить робота");
+        loadButton = new JButton(LocalizationManager.getKey("robots.upload"));
         panel.add(loadButton, BorderLayout.CENTER);
 
         fileChooser = new JFileChooser();
@@ -64,7 +63,7 @@ public class RobotLoaderWindow extends JInternalFrame implements Serializable {
 
     private void loadRobot(File file){
         String defaultClassName = "org.robot.custom.DefaultRobot";
-        String robotClassName = JOptionPane.showInputDialog(this, "Введите имя класса робота (с пакетами): ", defaultClassName);
+        String robotClassName = JOptionPane.showInputDialog(this, LocalizationManager.getKey("msg.robots.upload"), defaultClassName);
 
         try{
             IRobot robot = (IRobot) RobotLoader.loadRobot(file.getAbsolutePath(), robotClassName);

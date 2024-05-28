@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import org.robot.custom.DefaultRobot;
 import org.robot.gui.Loader;
+import org.robot.gui.LocalizationManager;
 import org.robot.gui.model.IRobot;
 import org.robot.gui.state.AppState;
 import org.robot.gui.state.WindowState;
@@ -86,20 +87,20 @@ public class MainApplicationFrame extends JFrame
 
     protected LogWindow initLogWindow(WindowState logWindowState){
         LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource(), logWindowState);
-        Logger.debug("Протокол работает");
+        Logger.debug(LocalizationManager.getKey("log.work"));
         return logWindow;
     }
 
     protected void confirmWindowClose(){
         int option = JOptionPane.showOptionDialog(
                 this,
-                "Вы уверены, что хотите выйти?",
-                "Подтверждение выхода",
+                LocalizationManager.getKey("message.exit.confirm"),
+                LocalizationManager.getKey("title.confirm.exit"),
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
-                new Object[]{"Да", "Нет"},
-                "Нет"
+                new Object[]{LocalizationManager.getKey("button.yes"), LocalizationManager.getKey("button.no")},
+                LocalizationManager.getKey("button.no")
         );
 
         if (option == JOptionPane.YES_OPTION) {
@@ -114,4 +115,12 @@ public class MainApplicationFrame extends JFrame
         return new AppState(gameWindow, logWindow, coordinatedWindow, robotLoaderWindow);
     }
 
+    public  void updateText(){
+        setJMenuBar(new MenuBar(this));
+        logWindow.setTitle(LocalizationManager.getKey("title.log"));
+        gameWindow.setTitle(LocalizationManager.getKey("title.field"));
+        coordinatedWindow.setTitle(LocalizationManager.getKey("title.cor"));
+        robotLoaderWindow.setTitle(LocalizationManager.getKey("title.robots"));
+        SwingUtilities.updateComponentTreeUI(this);
+    }
 }

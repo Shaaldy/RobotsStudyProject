@@ -1,5 +1,6 @@
 package org.robot.gui.windows;
 
+import org.robot.gui.LocalizationManager;
 import org.robot.gui.model.IRobot;
 import org.robot.gui.state.WindowState;
 
@@ -15,7 +16,7 @@ public class CoordinatedWindow extends JInternalFrame implements Observer, Seria
     private IRobot robot;
     private JTextArea textArea;
     public CoordinatedWindow(IRobot robot){
-        super("Координаты робота", true, true, true, true);
+        super(LocalizationManager.getKey("title.cor"), true, true, true, true);
 
         JPanel jPanel = new JPanel(new BorderLayout());
         textArea = new JTextArea();
