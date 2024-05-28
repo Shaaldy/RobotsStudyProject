@@ -106,6 +106,7 @@ public class MainApplicationFrame extends JFrame
         if (option == JOptionPane.YES_OPTION) {
             Loader.serializeAppState(heapState());
             Loader.serializeRobot(robotLoaderWindow.getRobot());
+            Loader.serializeLanguage(LocalizationManager.getCurLocale());
             System.exit(0);
 
         }

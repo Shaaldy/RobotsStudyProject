@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class LocalizationManager {
-    private static Locale curLocale = new Locale("en");
+    private static Locale curLocale = Loader.deserializeLanguage();
     private static ResourceBundle resourceBundle = ResourceBundle.getBundle("msg", curLocale);
 
     public static String getKey(String key){
