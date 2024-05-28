@@ -14,11 +14,9 @@ import org.robot.gui.state.WindowState;
 
 
 public class RobotLoaderWindow extends JInternalFrame implements Serializable {
-    private JPanel panel;
     private JButton loadButton;
     private JFileChooser fileChooser;
     private IRobot currentRobot;
-    private GameVisualizer visualizer;
     private GameWindow gameWindow;
     private CoordinatedWindow coordinatedWindow;
     public RobotLoaderWindow(GameWindow gameWindow, CoordinatedWindow coordinatedWindow, IRobot iRobot){

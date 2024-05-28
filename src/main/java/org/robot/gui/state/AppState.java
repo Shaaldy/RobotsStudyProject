@@ -28,6 +28,4 @@ public class AppState implements Serializable {
 
     public WindowState getRobotLoaderWindowState(){ return robotLoaderWindowState;}
 
-
-
 }

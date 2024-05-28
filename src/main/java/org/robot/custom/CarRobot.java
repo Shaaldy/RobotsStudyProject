@@ -1,12 +1,24 @@
 package org.robot.custom;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class CarRobot extends DefaultRobot{
     public CarRobot(){
         super();
-        this.maxVelocity = 0.22;
-        this.maxAngularVelocity = 0.0022;
+        this.maxVelocity = 0.4;
+        this.maxAngularVelocity = 0.004;
+    }
+
+    public void update(Point2D target, Dimension bounds){
+        if (currentPosition.distance(target) < 2) return;
+
+        double angularVelocity = countAngularVelocity(target);
+        moveRobot(maxVelocity, angularVelocity, 10, bounds);
+
+        setChanged();
+        notifyObservers("robot moved");
+        clearChanged();
     }
 
     protected void drawRobot(Graphics2D g, int x, int y, double direction) {

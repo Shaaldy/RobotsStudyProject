@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 
 public class DefaultRobot extends IRobot {
 
-    private Point2D currentPosition;
+    protected Point2D currentPosition;
     private volatile Point2D targetPosition = new Point2D.Double(150, 150);;
     public double direction;
     public double maxVelocity;
@@ -73,7 +73,7 @@ public class DefaultRobot extends IRobot {
         return new Point2D.Double(newX, newY);
     }
 
-    private double countAngularVelocity(Point2D targetPosition){
+    protected double countAngularVelocity(Point2D targetPosition){
         double angularVelocity = 0;
         double angleToTarget = angleTo(currentPosition, targetPosition);
         double diff = asNormalizedRadians(angleToTarget - direction);
@@ -135,7 +135,7 @@ public class DefaultRobot extends IRobot {
         return direction;
     }
 
-    private void moveRobot(double velocity, double angularVelocity, double duration, Dimension bounds)
+    protected void moveRobot(double velocity, double angularVelocity, double duration, Dimension bounds)
     {
         velocity = applyLimits(velocity, 0, maxVelocity);
         angularVelocity = applyLimits(angularVelocity, -maxAngularVelocity, maxAngularVelocity);
