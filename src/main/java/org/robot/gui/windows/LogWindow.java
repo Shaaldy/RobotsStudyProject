@@ -8,6 +8,7 @@ import java.beans.PropertyVetoException;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 
+import org.robot.gui.LocalizationManager;
 import org.robot.gui.state.WindowState;
 import org.robot.log.LogChangeListener;
 import org.robot.log.LogEntry;
@@ -20,7 +21,7 @@ public class LogWindow extends JInternalFrame implements LogChangeListener
 
     public LogWindow(LogWindowSource logSource)
     {
-        super("Протокол работы", true, true, true, true);
+        super(LocalizationManager.getKey("title.log"), true, true, true, true);
         m_logSource = logSource;
         m_logSource.registerListener(this);
         m_logContent = new TextArea("");

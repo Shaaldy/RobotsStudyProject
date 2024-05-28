@@ -1,5 +1,6 @@
 package org.robot.gui.windows;
 
+import org.robot.gui.LocalizationManager;
 import org.robot.gui.model.GameVisualizer;
 import org.robot.gui.state.WindowState;
 
@@ -17,7 +18,7 @@ public class GameWindow extends JInternalFrame
     private JPanel panel;
     public GameWindow(IRobot robot)
     {
-        super("Игровое поле", true, true, true, true);
+        super(LocalizationManager.getKey("title.field"), true, true, true, true);
         m_visualizer = new GameVisualizer(robot);
         initialize();
     }
