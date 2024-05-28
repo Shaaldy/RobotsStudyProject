@@ -1,6 +1,6 @@
 package org.robot.gui.windows;
 
-import org.robot.gui.model.Robot;
+import org.robot.gui.model.IRobot;
 import org.robot.gui.state.WindowState;
 
 import javax.swing.*;
@@ -12,9 +12,9 @@ import java.util.Observer;
 
 public class CoordinatedWindow extends JInternalFrame implements Observer, Serializable {
 
-    private Robot robot;
+    private IRobot robot;
     private JTextArea textArea;
-    public CoordinatedWindow(Robot robot){
+    public CoordinatedWindow(IRobot robot){
         super("Координаты робота", true, true, true, true);
 
         JPanel jPanel = new JPanel(new BorderLayout());
@@ -28,7 +28,7 @@ public class CoordinatedWindow extends JInternalFrame implements Observer, Seria
         robot.addObserver(this);
     }
 
-    public CoordinatedWindow(WindowState state, Robot robot){
+    public CoordinatedWindow(WindowState state, IRobot robot){
         this(robot);
         this.setSize(state.getSize());
         this.setLocation(state.getLocation());
@@ -47,5 +47,13 @@ public class CoordinatedWindow extends JInternalFrame implements Observer, Seria
     }
     private void onRobotMoved() {
         textArea.setText(robot.getInfo());
+    }
+
+    public void setInfo(IRobot iRobot){
+        if (this.robot != null){
+            this.robot.deleteObserver(this);
+        }
+        this.robot = iRobot;
+        this.robot.addObserver(this);
     }
 }

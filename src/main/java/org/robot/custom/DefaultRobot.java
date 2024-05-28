@@ -1,46 +1,46 @@
-package org.robot.gui.model;
+package org.robot.custom;
+
+import org.robot.gui.model.IRobot;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.util.Observable;
 
-public class Robot extends Observable {
 
-    private Point2D currentPosition;
-    private volatile Point2D targetPosition;
-    private static volatile double direction = 0;
+public class DefaultRobot extends IRobot {
 
-    private static final double maxVelocity = 0.1;
-    private static final double maxAngularVelocity = 0.001;
+    protected Point2D currentPosition;
+    private volatile Point2D targetPosition = new Point2D.Double(150, 150);;
+    public double direction;
+    public double maxVelocity;
+    public double maxAngularVelocity;
 
-    public Robot(int PosX, int PosY){
+    public DefaultRobot(int PosX, int PosY){
         super();
-        currentPosition = new Point2D.Double(PosX, PosY);
+        this.currentPosition = new Point2D.Double(PosX, PosY);
+        this.direction = 0;
+        this.maxVelocity = 0.1;
+        this.maxAngularVelocity = 0.001;
     }
 
-    public Robot(){
-        super();
-        currentPosition = new Point2D.Double(10, 10);
+    public DefaultRobot(){
+        this(10, 10);
     }
-
+    @Override
     public double getDirection(){
         return direction;
     }
+    @Override
     public Point2D getCurrentPosition(){
         return currentPosition;
     }
+
+    @Override
     public String getInfo(){
         return String.format("Position: (%f, %f) | Direction: %f", currentPosition.getX(), currentPosition.getY(), direction);
     }
 
-    public void setPosition(Point2D newPosition){
-        currentPosition = newPosition;
-    }
-
-    public void setDirection(Double newDirection){
-        direction = newDirection;
-    }
-
+    @Override
     public void update(Point2D target, Dimension bounds){
         if (currentPosition.distance(target) < 0.5) return;
 
@@ -50,6 +50,14 @@ public class Robot extends Observable {
         setChanged();
         notifyObservers("robot moved");
         clearChanged();
+    }
+
+    public void setPosition(Point2D newPosition){
+        currentPosition = newPosition;
+    }
+
+    public void setDirection(Double newDirection){
+        direction = newDirection;
     }
 
 
@@ -65,7 +73,7 @@ public class Robot extends Observable {
         return new Point2D.Double(newX, newY);
     }
 
-    private double countAngularVelocity(Point2D targetPosition){
+    protected double countAngularVelocity(Point2D targetPosition){
         double angularVelocity = 0;
         double angleToTarget = angleTo(currentPosition, targetPosition);
         double diff = asNormalizedRadians(angleToTarget - direction);
@@ -127,7 +135,7 @@ public class Robot extends Observable {
         return direction;
     }
 
-    private void moveRobot(double velocity, double angularVelocity, double duration, Dimension bounds)
+    protected void moveRobot(double velocity, double angularVelocity, double duration, Dimension bounds)
     {
         velocity = applyLimits(velocity, 0, maxVelocity);
         angularVelocity = applyLimits(angularVelocity, -maxAngularVelocity, maxAngularVelocity);
@@ -137,4 +145,32 @@ public class Robot extends Observable {
         setPosition(newPos(velocity, angularVelocity, duration));
         setDirection(applyBounds(bounds, newDirection));
     }
+
+    protected static void fillOval(Graphics g, int centerX, int centerY, int diam1, int diam2) {
+        g.fillOval(centerX - diam1 / 2, centerY - diam2 / 2, diam1, diam2);
+    }
+
+    protected static void drawOval(Graphics g, int centerX, int centerY, int diam1, int diam2) {
+        g.drawOval(centerX - diam1 / 2, centerY - diam2 / 2, diam1, diam2);
+    }
+
+    protected static int round(double value) {
+        return (int)(value + 0.5);
+    }
+
+    protected void drawRobot(Graphics2D g, int x, int y, double direction) {
+        int robotCenterX = round(x);
+        int robotCenterY = round(y);
+        AffineTransform t = AffineTransform.getRotateInstance(direction, robotCenterX, robotCenterY);
+        g.setTransform(t);
+        g.setColor(Color.MAGENTA);
+        fillOval(g, robotCenterX, robotCenterY, 30, 10);
+        g.setColor(Color.BLACK);
+        drawOval(g, robotCenterX, robotCenterY, 30, 10);
+        g.setColor(Color.WHITE);
+        fillOval(g, robotCenterX  + 10, robotCenterY, 5, 5);
+        g.setColor(Color.BLACK);
+        drawOval(g, robotCenterX  + 10, robotCenterY, 5, 5);
+    }
+
 }
